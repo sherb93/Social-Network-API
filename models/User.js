@@ -1,5 +1,4 @@
 const { Schema, model } = require("mongoose");
-const db = require("../config/connection");
 
 const userSchema = new Schema (
     {
@@ -15,7 +14,12 @@ const userSchema = new Schema (
             unique: true,
             validate: /^(.+)@(.+)$/ //TEST THIS
         },
-        thoughts: [thoughtSchema],
+        thoughts: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'thought'
+            }
+        ],
         friends: [userSchema]
     }
 );
