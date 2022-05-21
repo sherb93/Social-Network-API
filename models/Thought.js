@@ -3,7 +3,7 @@ const { Schema, model } = require("mongoose");
 const reactionSchema = new Schema (
     {
         reactionId: {
-            type: ObjectId,
+            type: Schema.Types.ObjectId,
             default: new Schema.Types.ObjectId()
         },
         reactionBody: {
@@ -17,8 +17,9 @@ const reactionSchema = new Schema (
         },
         createdAt: {
             type: Date,
-            default: new Date,
+            default: Date.now,
             //Use a getter method to format the timestamp on query
+            // get: 
         }
     },
     {

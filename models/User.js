@@ -12,15 +12,20 @@ const userSchema = new Schema (
             type: String,
             required: true,
             unique: true,
-            validate: /^(.+)@(.+)$/ //TEST THIS
+            //validate: /^(.+)@(.+)$/ //TEST THIS
         },
         thoughts: [
             {
                 type: Schema.Types.ObjectId,
-                ref: 'thought'
+                ref: 'Thought'
             }
         ],
-        friends: [userSchema]
+        friends: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'User'
+            }
+        ]
     }
 );
 
