@@ -9,20 +9,31 @@ connection.once("open", async () => {
     await User.deleteMany({});
     await Thought.deleteMany({});
 
-    // for (i = 0; i < 10; i++) {
-    //     const name = getName();
-    //     const randomNum = Math.floor(Math.random() * 900);
-    //     const username = `${name}${randomNum}`;
-
-    //     users.push({
-    //         username,
-
-    //     })
-    // }
-    console.log(`USERS: ${users}`);
     await User.collection.insertMany(users);
     await Thought.collection.insertMany(thoughts);
-    const thoughtsData = Thought.findOne({ thoughtText: "I don't really like this platform, it's too archaic. No UI? Really?" });
-    console.log(thoughtsData);
+
+    // const thoughtsData = Thought.find({});
+
+    Thought.find({})
+        .then(thoughtsData => {
+            console.log(thoughtsData);
+            thoughtsData.forEach(async (thought) => {
+                const userData = await User.find({})
+                const randomUser = userData[Math.floor(Math.random() * userData.length)].username;
+        
+                Thought.where({ _id: thought._id }).update({ username: randomUser});
+                User.where({ username: randomUser }).update({ $push: { thoughts: thought._id }});
+            })
+        })
+        .catch(err => console.log(err));
+    // thoughtsData.forEach(thought => {
+    //     const userData = User.find({})
+    //     const randomUser = userData[Math.floor(Math.random() * userData.length)].username;
+
+    //     Thought.where({ _id: thought._id }).update({ username: randomUser});
+    //     User.where({ username: randomUser }).update({ $push: { thoughts: thought._id }});
+    // })
+
+    
     process.exit(0);
 })

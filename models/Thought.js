@@ -1,10 +1,11 @@
 const { Schema, model } = require("mongoose");
+const mongoose = require("mongoose"); // Only way that reactionId won't throw an error in creating new ObjectId
 
 const reactionSchema = new Schema (
     {
         reactionId: {
             type: Schema.Types.ObjectId,
-            default: new Schema.Types.ObjectId()
+            default: new mongoose.Types.ObjectId() // Only way that reactionId won't throw an error in creating new ObjectId
         },
         reactionBody: {
             type: String,
@@ -25,7 +26,7 @@ const reactionSchema = new Schema (
     {
         toJSON: {
             getters: true,
-          },
+        }
     }
 );
 
@@ -40,7 +41,7 @@ const thoughtSchema = new Schema (
         createdAt: {
             type: Date,
             default: new Date(),
-            //User a getter method to format the timestamp on query
+            //Use a getter method to format the timestamp on query
         },
         username: {
             type: String,
@@ -52,7 +53,8 @@ const thoughtSchema = new Schema (
         toJSON: {
             virtuals: true,
             getters: true
-          }
+          },
+        id: false
     }
 );
 
@@ -60,6 +62,6 @@ thoughtSchema.virtual("reactionCount").get(function() {
     return this.reactions.length;
 });
 
-const Thought = model("thought", thoughtSchema);
+const Thought = model("Thought", thoughtSchema);
 
 module.exports = Thought;
