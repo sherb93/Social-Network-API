@@ -2,26 +2,38 @@ const users = [
     {
         username: "SammieSweetheart",
         email: "samanthag@gmail.com",
+        thoughts: [],
+        friends: []
     },
     {
         username: "ItsTheSituation",
         email: "mikes@gmail.com",
+        thoughts: [],
+        friends: []
     },
     {
         username: "DJPaulyD",
         email: "paulyd@gmail.com",
+        thoughts: [],
+        friends: []
     },
     {
         username: "JENNIWOWW",
         email: "jwoww@gmail.com",
+        thoughts: [],
+        friends: []
     },
     {
         username: "VINNYGUADAGNINO",
         email: "vinnyg@gmail.com",
+        thoughts: [],
+        friends: []
     },
     {
         username: "snookie",
         email: "snookie@gmail.com",
+        thoughts: [],
+        friends: []
     }
 ]
 

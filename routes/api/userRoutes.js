@@ -9,7 +9,7 @@ router.route("/")
 
             // If there are no users send an appropriate response
             if (!usersData) {
-                res.status(404).json({ message: "This user does not exist!"})
+                return res.status(404).json({ message: "This user does not exist!"})
             }
 
             res.status(200).json(usersData);
@@ -44,7 +44,7 @@ router.route("/:id")
 
             // If no user data send appropriate response
             if (!userData) {
-                res.status(404).send({ message: "This user does not exist!"})
+                return res.status(404).send({ message: "This user does not exist!"})
             }
 
             res.status(200).json(userData);
@@ -61,9 +61,27 @@ router.route("/:id")
                 { new: true } // Returns the updated document, not the old version
             );
 
+            if (!updatedUser) {
+                return res.status(404).json("Invalid user ID. Cannot update.")
+            }
+
             res.status(200).json(updatedUser);
         } catch (err) {
             console.log(err);
+            res.status(500).json(err);
+        }
+    })
+    .delete(async (req, res) => {
+        try {
+            // Finds user by id using url params and deletes it
+            const deletedUser = await User.findOneAndDelete({ _id: req.params.id });
+
+            if (!deletedUser) {
+                return res.status(404).json("Cannot delete user. User Id invalid.")
+            }
+
+            res.status(200).json("User deleted successfully!");
+        } catch (err) {
             res.status(500).json(err);
         }
     })

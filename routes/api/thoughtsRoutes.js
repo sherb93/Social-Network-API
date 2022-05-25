@@ -9,12 +9,12 @@ router.route("/")
 
             // If no thoughts exist then send a response
             if (!thoughtsData) {
-                res.status(404).json({ message: "No thoughts exist!"})
+                return res.status(404).json({ message: "No thoughts exist!"})
             }
 
             // Sends the thoughts to the client
             res.status(200).json(thoughtsData);
-        } catch {
+        } catch (err) {
             res.status(500).json(err);
         }
     })
@@ -38,12 +38,12 @@ router.route("/")
             .populate("thoughts"); // Include new thoughts in response
 
             if (!targetUser) {
-                res.status(404).json("Sorry, that user does not exist.")
+                return res.status(404).json("Sorry, that user does not exist.")
             };
 
             res.status(200).json(targetUser);
-        } catch {
-            res.status(500).send(err);
+        } catch (err) {
+            res.status(500).json(err);
         }
     });
 
