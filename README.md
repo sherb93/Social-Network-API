@@ -10,3 +10,6 @@ Mongoose has an incredible amount of useful features and I've only scratched the
 This is a completely back-end project so I've attached a demo video where I used Insomnia to test all of the routes I created and prove that they work as intended.
 
 ## Demo
+
+https://user-images.githubusercontent.com/95831392/170382901-0a36c251-12c9-4361-8906-ee5d945feffe.mp4
+
