@@ -1,6 +1,5 @@
 const { Schema, model } = require("mongoose");
 const mongoose = require("mongoose"); // Only way that reactionId won't throw an error in creating new ObjectId
-const { formatDate } = require("../utils/formatDate");
 
 
 const reactionSchema = new Schema (
