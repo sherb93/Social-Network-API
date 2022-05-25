@@ -47,4 +47,54 @@ router.route("/")
         }
     });
 
+router.route("/:id")
+    .get(async (req, res) => {
+        try {
+            // Find one thought by url parameters
+            const thoughtData = await Thought.findOne({ _id: req.params.id});
+
+            // If no thought data send appropriate response
+            if (!thoughtData) {
+                return res.status(404).send({ message: "This thought does not exist!"})
+            }
+
+            res.status(200).json(thoughtData);
+        } catch (err) {
+            console.log(err);
+            res.status(500).json(err);
+        }
+    })
+    .put(async (req, res) => {
+        try {
+            const updatedThought = await Thought.findOneAndUpdate(
+                { _id: req.params.id }, // Finds Thought with an _id that matches the url parameter
+                { $set: req.body }, // If a document has a property named the same as the key in req.body it replaces it in the document
+                { new: true } // Returns the updated document, not the old version
+            );
+
+            if (!updatedThought) {
+                return res.status(404).json("Invalid thought ID. Cannot update.")
+            }
+
+            res.status(200).json(updatedThought);
+        } catch (err) {
+            console.log(err);
+            res.status(500).json(err);
+        }
+    })
+    .delete(async (req, res) => {
+        try {
+            // Finds thought by id using url params and deletes it
+            const deletedThought = await Thought.findOneAndDelete({ _id: req.params.id });
+
+            if (!deletedThought) {
+                return res.status(404).json("Cannot delete thought. Thought Id invalid.")
+            }
+
+            res.status(200).json("Thought deleted successfully!");
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    });
+
 module.exports = router;
