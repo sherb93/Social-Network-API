@@ -97,4 +97,42 @@ router.route("/:id")
         }
     });
 
+router.route("/:thoughtId/reactions")
+    .post(async (req, res) => {
+        try {
+            const thoughtReaction = await Thought.findOneAndUpdate(
+                { _id: req.params.thoughtId },
+                { $addToSet: { reactions: req.body }},
+                { new: true }
+            );
+
+            if (!thoughtReaction){
+                return res.status(404).json({ message: "Invalid thought ID" });
+            }
+
+            res.status(200).json(thoughtReaction);
+        } catch (err) {
+            console.log(err);
+            res.status(500).json(err);
+        }
+    })
+    .delete(async (req, res) => {
+        try {
+            const thoughtReaction = await Thought.findOneAndUpdate(
+                { _id: req.params.thoughtId },
+                { $pull: { reactions: req.body }},
+                { new: true }
+            );
+
+            if (!thoughtReaction){
+                return res.status(404).json({ message: "Invalid thought ID" });
+            }
+
+            res.status(200).json(thoughtReaction);
+        } catch (err) {
+            console.log(err);
+            res.status(500).json(err);
+        }
+    })
+
 module.exports = router;

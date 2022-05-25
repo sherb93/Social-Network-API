@@ -1,5 +1,7 @@
 const { Schema, model } = require("mongoose");
 const mongoose = require("mongoose"); // Only way that reactionId won't throw an error in creating new ObjectId
+const { formatDate } = require("../utils/formatDate");
+
 
 const reactionSchema = new Schema (
     {
@@ -19,14 +21,14 @@ const reactionSchema = new Schema (
         createdAt: {
             type: Date,
             default: Date.now,
-            //Use a getter method to format the timestamp on query
-            // get: 
+            // get: formatDate()
         }
     },
     {
         toJSON: {
             getters: true,
-        }
+        },
+        id: false
     }
 );
 

@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { User } = require("../../models/index");
+const { User, Thought } = require("../../models/index");
 
 router.route("/")
     .get(async (req, res) => {
@@ -73,15 +73,53 @@ router.route("/:id")
     })
     .delete(async (req, res) => {
         try {
-            // Finds user by id using url params and deletes it
-            const deletedUser = await User.findOneAndDelete({ _id: req.params.id });
+            // Delete user
+            const userData = await User.findOneAndDelete({ _id: req.params.id });
 
-            if (!deletedUser) {
+            if (!userData) {
                 return res.status(404).json("Cannot delete user. User Id invalid.")
             }
-
+            
             res.status(200).json("User deleted successfully!");
         } catch (err) {
+            res.status(500).json(err);
+        }
+    })
+
+router.route("/:userId/friends/:friendId")
+    .post(async (req, res) => {
+        try{
+        const userData = await User.findOneAndUpdate(
+            { _id: req.params.userId },
+            { $addToSet: { friends: req.params.friendId }}, // Adds friendId to the array of friends
+            { new: true }
+        )
+
+        if (!userData) {
+            return res.status(404).json({ message: "Invalid User ID or Friend ID" });
+        }
+
+        res.status(200).json(userData);
+        } catch (err) {
+            console.log(err);
+            res.status(500).json(err);
+        }
+    })
+    .delete(async (req, res) => {
+        try{
+        const userData = await User.findOneAndUpdate(
+            { _id: req.params.userId },
+            { $pull: { friends: req.params.friendId }}, // Removes friendId from the array of friends
+            { new: true }
+        )
+
+        if (!userData) {
+            return res.status(404).json({ message: "Invalid User ID or Friend ID" });
+        }
+
+        res.status(200).json(userData);
+        } catch (err) {
+            console.log(err);
             res.status(500).json(err);
         }
     })

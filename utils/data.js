@@ -6,6 +6,12 @@ const users = [
         friends: []
     },
     {
+        username: "angelinamtvjs",
+        email: "angelinalarangeira@gmail.com",
+        thoughts: [],
+        friends: []
+    },
+    {
         username: "ItsTheSituation",
         email: "mikes@gmail.com",
         thoughts: [],
@@ -34,7 +40,7 @@ const users = [
         email: "snookie@gmail.com",
         thoughts: [],
         friends: []
-    }
+    },
 ]
 
 const thoughts = [
